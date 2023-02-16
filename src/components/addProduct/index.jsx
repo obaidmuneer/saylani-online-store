@@ -1,15 +1,15 @@
-import { Avatar, Box, Button, Center, Heading, HStack, IconButton, Image, Input, Select, Stack, Text, Textarea, useColorModeValue } from '@chakra-ui/react'
-import React, { useContext, useState } from 'react'
-import { IoMdAdd } from 'react-icons/io'
+import { Avatar, Box, Button, Center, Heading, HStack, IconButton, Image, Input, Select, Spinner, Stack, Text, Textarea, useColorModeValue } from '@chakra-ui/react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { GlobalContext } from '../../context/context'
-import useDoc from '../../hooks/useProduct'
+import useCategory from '../../hooks/useCategory'
+import useProducts from '../../hooks/useProduct'
 import SelectImg from '../selectImg'
 import CategoryHCard from '../ui-component/categoryHCard'
 
 const AddProduct = () => {
-    const { postFile } = useDoc()
+    const { getCategory } = useCategory()
+    const { postProduct, isLoading } = useProducts()
     const { state } = useContext(GlobalContext)
-    const [name, setName] = useState('')
     const [file, setFile] = useState('')
 
     const bgColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100')
@@ -17,51 +17,65 @@ const AddProduct = () => {
     const sec_c = useColorModeValue('white', 'gray.800')
 
 
-    const handleData = async () => {
-        // console.log(file.target.files[0]);
+    const handleData = async (e) => {
+        e.preventDefault()
+        const { title, description, category, unit_name, unit_price } = e.target
         let formData = new FormData();
-        formData.append("myFile", file.target.files[0]);
-        formData.append("name", name);
-        formData.append("contentType", 'file');
-        formData.append("classId", state.classId);
-        // console.log(formData);
-        await postFile(formData)
-        // props.onClose()
+        formData.append("file", file.target.files[0]);
+        formData.append("title", title.value);
+        formData.append("description", description.value);
+        formData.append("category", category.value);
+        formData.append("unit_name", unit_name.value);
+        formData.append("unit_price", unit_price.value);
+        await postProduct(formData)
+        setFile('')
+        e.target.reset()
     }
+
+    useEffect(() => {
+        getCategory()
+    }, [])
+
 
     return (
         <Center>
-            <Stack my={2} align='center' width={'100%'} >
+
+            <Stack my={2} align='center' width={'100%'} as='form' onSubmit={handleData} >
                 <Heading color={'blue.500'} >
                     Add New Item
                 </Heading>
+                {
+                    isLoading ? <Spinner color='green.400' thickness='6px' minH={50} minW={50} speed='1s' emptyColor='gray' />
+                        :
+                        <SelectImg file={file} handleFile={setFile} />
+                }
 
-                <SelectImg file={file} handleFile={setFile} />
-                <Box >
+
+
+                <Box my={2} >
                     <Input
                         bg={bgColor}
                         border={0}
                         _focus={{
                             bg: 'whiteAlpha.300',
                         }}
-                        id="name"
-                        name="name"
+                        id="title"
+                        name="title"
                         placeholder="Enter Product Title Here..."
-                        // width="110"
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
                     />
                     <Select
                         placeholder='Select Category'
                         my={1}
                         bg={bgColor}
                         border={0}
+                        id="category"
+                        name="category"
                         _focus={{
                             bg: 'whiteAlpha.300',
                         }} >
-                        <option value='option1'>Option 1</option>
-                        <option value='option2'>Option 2</option>
-                        <option value='option3'>Option 3</option>
+                        {
+                            state.category.map(category => <option key={category._id} value={category.title}>{category.title}</option>)
+                        }
                     </Select>
                     <Textarea
                         bg={bgColor}
@@ -69,11 +83,12 @@ const AddProduct = () => {
                         _focus={{
                             bg: 'whiteAlpha.300',
                         }}
-                        // value={value}
-                        // onChange={handleInputChange}
+                        id="description"
+                        name="description"
                         placeholder='Here is a sample placeholder'
                         size='sm'
                     />
+
                     <HStack>
                         <Text  >
                             Unit Name
@@ -84,11 +99,9 @@ const AddProduct = () => {
                             _focus={{
                                 bg: 'whiteAlpha.300',
                             }}
-                            id="name"
-                            name="name"
+                            id="unit_name"
+                            name="unit_name"
                             placeholder="Enter Product Title Here..."
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
                         />
                     </HStack>
                     <HStack>
@@ -101,11 +114,9 @@ const AddProduct = () => {
                             _focus={{
                                 bg: 'whiteAlpha.300',
                             }}
-                            id="name"
-                            name="name"
+                            id="unit_price"
+                            name="unit_price"
                             placeholder="Enter Product Title Here..."
-                            onChange={(e) => setName(e.target.value)}
-                            value={name}
                         />
                     </HStack>
                     <Button
@@ -117,13 +128,20 @@ const AddProduct = () => {
                         width={'full'}
                         // isLoading={formik.isSubmitting}
                         type='submit'
-
                     >
                         Add Product
                     </Button>
                 </Box>
 
+
+
+
+
+
             </Stack>
+
+
+
         </Center>
     )
 }
