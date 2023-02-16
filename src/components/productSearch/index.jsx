@@ -3,26 +3,26 @@ import * as yup from 'yup';
 import {
     Stack, Box,
 } from '@chakra-ui/react';
-import useDoc from '../../hooks/useProduct';
+import useProduct from '../../hooks/useProduct';
 import { BsSearch } from 'react-icons/bs'
 import FormikForm from '../formikForm';
 
 const validationSchema = yup.object().shape({
-    link: yup.string().min(3).required('Please enter a link'),
+    text: yup.string().min(3).required('Please enter something to search'),
 });
 
 const ProductSearch = () => {
-    const { postLink } = useDoc()
+    const { searchProducts } = useProduct()
 
     const formik = useFormik({
         initialValues: {
-            link: '',
+            text: '',
         },
         validationSchema: validationSchema,
         onSubmit: async (values, actions) => {
-            await postLink(values)
+            await searchProducts(values.text)
             actions.setSubmitting(false)
-            actions.resetForm()
+            // actions.resetForm()
         },
     });
 
@@ -32,7 +32,7 @@ const ProductSearch = () => {
                 <FormikForm
                     formik={formik}
                     color={'green'}
-                    nameLabel={'product-search'}
+                    nameLabel={'text'}
                     placeHolder={'Enter Product Name to Search'}
                     icon={<BsSearch />} />
             </Stack>
