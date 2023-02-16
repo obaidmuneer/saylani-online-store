@@ -5,6 +5,7 @@ export const GlobalContext = createContext("initialState");
 let data = {
     theme: "light",
     user: null,
+    category: [],
     products: [],
     api: window.location.href.includes("localhost") ?
         "http://localhost:8080/api/v1/"
