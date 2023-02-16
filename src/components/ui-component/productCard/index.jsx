@@ -19,7 +19,7 @@ const ProductCard = ({ title, desc, unit_name, unit_price, img }) => {
                             <Heading size='md'>{title}</Heading>
                             <Spacer />
                             <Text color='blue.600' fontSize='2xl'>
-                                {`${unit_price} per ${unit_name}`}
+                                {`${unit_price} rs per ${unit_name}`}
                             </Text>
                         </Stack>
                         <Stack direction={'row'} >

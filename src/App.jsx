@@ -40,7 +40,7 @@ function App() {
     <>
       {
         state.user === null ? <Center minH={'100vh'}  >
-          <Spinner color='orange.400' thickness='6px' minH={100} minW={100} speed='0.6s' emptyColor='gray' />
+          <Spinner color='green.400' thickness='6px' minH={100} minW={100} speed='0.6s' emptyColor='gray' />
         </Center>
           : <Navbar />}
       {

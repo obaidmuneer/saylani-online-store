@@ -1,11 +1,15 @@
 import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Heading, Text, Divider, ButtonGroup, Button, Box, Spacer } from '@chakra-ui/react'
 
 import React from 'react'
+import useProducts from '../../../hooks/useProduct'
 
 const CategoryCard = ({ title, img }) => {
+    const { getProdsByCategory } = useProducts()
     return (
         <Card
             maxW={140}
+            onClick={() => getProdsByCategory(title)}
+            cursor={'pointer'} 
         >
             <CardBody>
                 <Stack align={'center'} spacing='2'>

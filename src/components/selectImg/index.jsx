@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import {
     AspectRatio,
     Box,
@@ -8,15 +8,13 @@ import {
     Spinner,
     Stack,
     Text,
-    useColorModeValue,
     Icon
 } from "@chakra-ui/react";
-import { GlobalContext } from "../../context/context";
-import useDoc from "../../hooks/useProduct";
 import { BsCamera } from "react-icons/bs";
+import useCategory from "../../hooks/useCategory";
 
 export default function SelectImg({ file, handleFile }) {
-    const { isLoading } = useDoc()
+    const { isLoading } = useCategory()
     const [preview, setPreview] = useState('')
 
     return (
@@ -26,7 +24,7 @@ export default function SelectImg({ file, handleFile }) {
             </Center> :
                 <Stack alignItems={'center'} >
                     {
-                        preview ? <img src={preview} alt="my file" /> : <AspectRatio width="64" ratio={2 / 1}>
+                        preview ? <img src={preview} alt="my file" width={250} /> : <AspectRatio width="64" ratio={2 / 1}>
                             <Box
                                 borderColor="gray.300"
                                 borderStyle="dashed"
