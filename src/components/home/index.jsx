@@ -51,20 +51,21 @@ const Home = () => {
 
     return (
         <div>
+            <Image
+                src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+                alt='Green double couch with wooden legs'
+                w={'full'}
+                borderRadius='lg'
+            />
             <Container maxW={'5xl'}>
                 <Stack spacing={5} my={5}
                 >
-                    <Image
-                        src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-                        alt='Green double couch with wooden legs'
-                        w={'full'}
-                        borderRadius='lg'
-                    />
+
                     <ProductSearch />
                     <Text fontWeight={600} fontSize={'small'} >
                         Shop by Category
                     </Text>
-                    <Carousel responsive={responsive}>
+                    <Carousel autoPlay stopAutoPlayOnHover NextIcon='next' responsive={responsive}>
                         {
                             state.category.map(category => {
                                 return <CategoryCard key={category._id} title={category.title} img={category.file} />

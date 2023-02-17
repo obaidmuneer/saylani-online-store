@@ -5,7 +5,7 @@ import {
 import { useContext } from 'react'
 import { GlobalContext } from '../../context/context'
 
-function ProductList({ type }) {
+function ProductList() {
     const { state } = useContext(GlobalContext)
 
     if (state?.docs?.length === 0)

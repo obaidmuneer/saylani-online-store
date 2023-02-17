@@ -69,7 +69,14 @@ export default function Navbar() {
     const bg_c = useColorModeValue('gray.200', 'gray.700')
     return (
         <>
-            <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+            <Box
+                position={'fixed'}
+                zIndex={1}
+                top={0}
+                w={'full'}
+                bg={useColorModeValue('gray.100', 'gray.900')}
+                px={4}
+            >
                 <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                     <IconButton
                         size={'md'}
@@ -108,7 +115,7 @@ export default function Navbar() {
 
                     <Flex alignItems={'center'} >
                         <Stack direction={'row'} spacing={3}>
-                            <Button>
+                            <Button as={RouterLink} to={'/cart'} >
                                 <BsCart4 />
                             </Button>
                             <Button onClick={toggleColorMode}>
