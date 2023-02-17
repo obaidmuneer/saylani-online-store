@@ -6,6 +6,7 @@ import {
 import useProduct from '../../hooks/useProduct';
 import { BsSearch } from 'react-icons/bs'
 import FormikForm from '../formikForm';
+import FormikInput from '../formikInput';
 
 const validationSchema = yup.object().shape({
     text: yup.string().min(3).required('Please enter something to search'),
@@ -29,12 +30,13 @@ const ProductSearch = () => {
     return (
         <Box my={4} width='full'>
             <Stack direction={'row'}>
-                <FormikForm
-                    formik={formik}
+                <FormikForm formik={formik}
                     color={'green'}
-                    nameLabel={'text'}
-                    placeHolder={'Enter Product Name to Search'}
-                    icon={<BsSearch />} />
+                    icon={<BsSearch />} >
+                    <FormikInput
+                        formik={formik} nameLabel={'text'}
+                        placeHolder={'Enter Product Name to Search'} />
+                </FormikForm>
             </Stack>
         </Box>
     )
