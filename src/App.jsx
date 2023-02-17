@@ -7,9 +7,11 @@ import Navbar from './components/navbar';
 import Signin from './components/signin';
 import Signup from './components/signup';
 import { GlobalContext } from './context/context';
-import './App.css';
 import AddCategory from './components/addCategory';
 import AddProduct from './components/addProduct';
+import Footer from './components/footer';
+import './App.css';
+import Cart from './components/cart';
 
 function App() {
   const { state, dispatch } = useContext(GlobalContext)
@@ -60,8 +62,10 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/add-category' element={<AddCategory />} />
             <Route path='/add-product' element={<AddProduct />} />
+            <Route path='/cart' element={<Cart />} />
             <Route path='*' element={<Navigate to={'/'} replace={true} />} />
           </Routes>
+          <Footer />
         </> : null
       }
     </>
