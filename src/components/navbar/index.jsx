@@ -22,6 +22,7 @@ import {
     Hide,
     Show,
     Text,
+    Badge,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
@@ -115,9 +116,14 @@ export default function Navbar() {
 
                     <Flex alignItems={'center'} >
                         <Stack direction={'row'} spacing={3}>
-                            <Button as={RouterLink} to={'/cart'} >
-                                <BsCart4 />
-                            </Button>
+                            {
+                                state?.user && <Button p={2} as={RouterLink} to={'/cart'} >
+                                    <BsCart4 />
+                                    {
+                                        state?.cart?.orders && <Badge colorScheme={'red'} ml={2} >{state?.cart?.orders?.length}</Badge>
+                                    }
+                                </Button>
+                            }
                             <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                             </Button>
@@ -174,10 +180,10 @@ export default function Navbar() {
                                         as={RouterLink}
                                         fontWeight={600}
                                         color={'white'}
-                                        bg={'orange.400'}
+                                        bg={'green.400'}
                                         to={'/signup'}
                                         _hover={{
-                                            bg: 'orange.600',
+                                            bg: 'green.600',
                                         }}>
                                         Sign Up
                                     </Button>
