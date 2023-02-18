@@ -1,9 +1,12 @@
 import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Heading, Text, Divider, ButtonGroup, Button, Box, Spacer } from '@chakra-ui/react'
+import axios from 'axios'
 
-import React from 'react'
 import { IoMdAdd } from 'react-icons/io'
+import useCart from '../../../hooks/useCart'
 
-const ProductCard = ({ title, desc, unit_name, unit_price, img }) => {
+const ProductCard = ({ _id, title, desc, unit_name, unit_price, img }) => {
+    const { addToCart, isLoading } = useCart()
+
     return (
         <Card maxH={180}  >
             <CardBody>
@@ -30,14 +33,14 @@ const ProductCard = ({ title, desc, unit_name, unit_price, img }) => {
                             <Spacer />
 
                             <Button
-                            bg={'green.400'}
-                             >
+                                isLoading={isLoading}
+                                onClick={async () => await addToCart(_id)}
+                                bg={'green.400'}
+                            >
                                 <IoMdAdd size={"18"} />
                             </Button>
                         </Stack>
                     </Box>
-
-
                 </Stack>
             </CardBody>
         </Card>
