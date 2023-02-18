@@ -10,7 +10,7 @@ const useProducts = () => {
         try {
             setIsLoading(true)
             const res = await axios.get(`${state.api}products?page=${state.products.length}`)
-            console.log(res.data.products);
+            // console.log(res.data.products);
             dispatch({
                 type: "products",
                 payload: res.data.products

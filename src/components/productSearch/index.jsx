@@ -34,7 +34,8 @@ const ProductSearch = () => {
                     color={'green'}
                     icon={<BsSearch />} >
                     <FormikInput
-                        formik={formik} nameLabel={'text'}
+                        formik={formik}
+                        nameLabel={'text'}
                         placeHolder={'Enter Product Name to Search'} />
                 </FormikForm>
             </Stack>
