@@ -1,9 +1,11 @@
 import {
     Badge, Box,
-    StackDivider, VStack
+    Stack,
+    Text
 } from '@chakra-ui/react'
 import { useContext } from 'react'
 import { GlobalContext } from '../../context/context'
+import ProductCard from '../ui-component/productCard'
 
 function ProductList() {
     const { state } = useContext(GlobalContext)
@@ -17,24 +19,24 @@ function ProductList() {
             </Box>
         )
 
-    const vStackProps = {
-        p: '2',
-        w: '100%',
-        mt: 2,
-        borderWidth: '1px',
-        borderRadius: 'lg',
-        alignItems: 'space-between',
-        divider: <StackDivider />,
-    }
-
     return (
-        <VStack {...vStackProps}>
-            {state?.products?.map((product, index) => {
-                if (!product?.isDeleted) {
-                    return null
-                }
-            })}
-        </VStack>
+        <Stack mt={2}>
+            {
+                state.products.length > 0 ? state.products.map(product => {
+                    return <ProductCard
+                        key={product._id}
+                        img={product.file}
+                        title={product.title}
+                        unit_name={product.unit_name}
+                        unit_price={product.unit_price}
+                        desc={product.description}
+                        _id={product._id} />
+                }) :
+                    <Text>
+                        Product Not Found
+                    </Text>
+            }
+        </Stack>
     )
 }
 
