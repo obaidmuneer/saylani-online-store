@@ -6,6 +6,8 @@ let data = {
     theme: "light",
     user: null,
     category: [],
+    orders: [],
+    cart: null,
     products: [],
     api: window.location.href.includes("localhost") ?
         "http://localhost:8080/api/v1/"
