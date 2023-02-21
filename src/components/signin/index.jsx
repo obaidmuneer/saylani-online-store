@@ -37,7 +37,15 @@ export default function Signin() {
                 { withCredentials: true })
             dispatch({
                 type: 'signin',
-                payload: result.data
+                payload: result.data.user
+            })
+            dispatch({
+                type: 'cart',
+                payload: result.data.cart
+            })
+            dispatch({
+                type: 'cart',
+                payload: result.data.orders
             })
             navigate('/')
         } catch (error) {
