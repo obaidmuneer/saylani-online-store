@@ -1,7 +1,7 @@
 import { Button, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 
-const CIcon = ({ children, handleClick }) => {
+const CIcon = ({ children, handleClick, isLoading }) => {
     const sec_c = useColorModeValue('white', 'gray.800')
     return (
         <Button
@@ -13,6 +13,7 @@ const CIcon = ({ children, handleClick }) => {
             p={"0"}
             borderRadius={"full"}
             onClick={handleClick}
+            isLoading={isLoading}
         >
             {children}
         </Button>
