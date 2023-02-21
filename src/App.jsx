@@ -22,7 +22,7 @@ function App() {
         const result = await axios.get(`${state.api}users/profile`, {
           withCredentials: true
         })
-        // console.log(result.data.cart);
+        // console.log(result.data.orders);
         dispatch({
           type: 'signin',
           payload: result.data.user
@@ -30,6 +30,10 @@ function App() {
         dispatch({
           type: 'cart',
           payload: result.data.cart
+        })
+        dispatch({
+          type: 'orders',
+          payload: result.data.orders
         })
       } catch (error) {
         console.log(error);
