@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { Center, Spinner } from '@chakra-ui/react';
+import { Box, Center, Spinner } from '@chakra-ui/react';
 import Home from './components/home';
 import Navbar from './components/navbar';
 import Signin from './components/signin';
@@ -53,29 +53,31 @@ function App() {
           <Spinner color='green.400' thickness='6px' minH={100} minW={100} speed='0.6s' emptyColor='gray' />
         </Center>
           : <Navbar />}
-      {
-        state.user === false ? <>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/signin' element={<Signin />} />
-            <Route path='*' element={<Navigate to={'/'} replace={true} />} />
-          </Routes>
-        </>
-          : null
-      }
-      {
-        state.user ? <>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/add-category' element={<AddCategory />} />
-            <Route path='/add-product' element={<AddProduct />} />
-            <Route path='/cart' element={<Cart />} />
-            <Route path='*' element={<Navigate to={'/'} replace={true} />} />
-          </Routes>
-          <Footer />
-        </> : null
-      }
+      <Box py={'70px'} >
+        {
+          state.user === false ? <>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/signup' element={<Signup />} />
+              <Route path='/signin' element={<Signin />} />
+              <Route path='*' element={<Navigate to={'/'} replace={true} />} />
+            </Routes>
+          </>
+            : null
+        }
+        {
+          state.user ? <>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/add-category' element={<AddCategory />} />
+              <Route path='/add-product' element={<AddProduct />} />
+              <Route path='/cart' element={<Cart />} />
+              <Route path='*' element={<Navigate to={'/'} replace={true} />} />
+            </Routes>
+            <Footer />
+          </> : null
+        }
+      </Box>
     </>
 
   )
