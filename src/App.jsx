@@ -13,6 +13,7 @@ import Footer from './components/footer';
 import './App.css';
 import Cart from './components/cart';
 import { getFeatures } from 'detect-features';
+import Orders from './components/orders';
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
               <Route path='/add-category' element={<AddCategory />} />
               <Route path='/add-product' element={<AddProduct />} />
               <Route path='/cart' element={<Cart />} />
+              <Route path='/orders' element={<Orders />} />
               <Route path='*' element={<Navigate to={'/'} replace={true} />} />
             </Routes>
             {
