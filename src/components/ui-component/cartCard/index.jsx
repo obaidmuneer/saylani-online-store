@@ -1,4 +1,4 @@
-import { Card, CardBody, Text, Heading, Image, HStack, Badge, Spacer } from '@chakra-ui/react'
+import { Card, CardBody, Text, Heading, Image, HStack, Badge, Spacer, CardFooter } from '@chakra-ui/react'
 import { IoIosAdd, } from 'react-icons/io'
 import { FiMinus } from 'react-icons/fi'
 import CIcon from '../CIcon'
@@ -25,7 +25,6 @@ const CartCard = ({ id, title, unit_price, total_price, img, quantity }) => {
         <Card
             direction={{ base: 'column', sm: 'row' }}
             overflow='hidden'
-            h={150}
         >
             <Image
                 rounded={'lg'}
@@ -50,10 +49,12 @@ const CartCard = ({ id, title, unit_price, total_price, img, quantity }) => {
 
                 </CardBody>
                 <Spacer />
+                <CardFooter>
+                    <Text fontSize={20} >
+                        Price : {total_price}
+                    </Text>
 
-                <Text fontSize={20} >
-                    Price : {total_price}
-                </Text>
+                </CardFooter>
             </HStack>
         </Card>
     )
