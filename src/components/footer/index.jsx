@@ -15,7 +15,7 @@ const btns = [
         path: '/add-product'
     }, {
         icon: <MdOutlineAccountCircle size={"18"} />,
-        path: '/'
+        path: '/orders'
     },
 
 ]

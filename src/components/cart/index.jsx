@@ -86,13 +86,13 @@ const Cart = () => {
                     </FormikForm>
                 </> : 'Please order product from home page to see cart '
             }
-            <br />
-            {
+            {/* <br /> */}
+            {/* {
                 state.orders.length ?
                     state.orders.map(order => order.status == 'pending' ?
                         `You have ${state.orders.length} orders in pending` : null)
                     : null
-            }
+            } */}
         </Box>
     )
 }
