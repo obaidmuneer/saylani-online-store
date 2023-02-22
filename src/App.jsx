@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Box, Center, Spinner } from '@chakra-ui/react';
@@ -12,13 +12,19 @@ import AddProduct from './components/addProduct';
 import Footer from './components/footer';
 import './App.css';
 import Cart from './components/cart';
+import { getFeatures } from 'detect-features';
+
 
 function App() {
   const { state, dispatch } = useContext(GlobalContext)
+  const [features, setFeatures] = useState('')
 
   useEffect(() => {
+
     (async () => {
       try {
+        const feature = await getFeatures()
+        setFeatures(feature)
         const result = await axios.get(`${state.api}users/profile`, {
           withCredentials: true
         })
@@ -74,7 +80,10 @@ function App() {
               <Route path='/cart' element={<Cart />} />
               <Route path='*' element={<Navigate to={'/'} replace={true} />} />
             </Routes>
-            <Footer />
+            {
+              features.browserFeatures.browserType.isMobile ? <Footer /> : null
+            }
+
           </> : null
         }
       </Box>
