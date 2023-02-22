@@ -7,7 +7,7 @@ export const reducer = (state, action) => {
     case "category":
       return { ...state, category: action.payload };
     case "orders":
-      return { ...state, orderedProducts: action.payload };
+      return { ...state, orders: action.payload };
     case "cart":
       return { ...state, cart: action.payload };
     case "signin":

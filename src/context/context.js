@@ -9,10 +9,10 @@ let data = {
     orders: [],
     cart: null,
     products: [],
-    api: window.location.href.includes("localhost") ?
+    api: window.location.href.includes("localhosts") ?
         "http://localhost:8080/api/v1/"
         :
-        "https://busy-gray-caridea-tie.cyclic.app/api/v1/"
+        "https://saylani-online-store-server.vercel.app/api/v1/"
 };
 
 export default function ContextProvider({ children }) {
