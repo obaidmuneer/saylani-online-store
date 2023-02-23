@@ -5,8 +5,10 @@ export const GlobalContext = createContext("initialState");
 let data = {
     theme: "light",
     user: null,
+    icon: null,
     category: [],
     orders: [],
+    adminOrders: [],
     cart: null,
     products: [],
     api: window.location.href.includes("localhost") ?
