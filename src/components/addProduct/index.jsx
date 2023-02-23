@@ -9,7 +9,7 @@ import CategoryHCard from '../ui-component/categoryHCard'
 const AddProduct = () => {
     const { getCategory } = useCategory()
     const { postProduct, isLoading } = useProducts()
-    const { state } = useContext(GlobalContext)
+    const { state, dispatch } = useContext(GlobalContext)
     const [file, setFile] = useState('')
 
     const bgColor = useColorModeValue('blackAlpha.100', 'whiteAlpha.100')
@@ -33,7 +33,15 @@ const AddProduct = () => {
     }
 
     useEffect(() => {
-        getCategory()
+        (async () => await getCategory())()
+        dispatch({
+            type: 'icon',
+        })
+
+        return () => dispatch({
+            type: 'icon',
+        })
+
     }, [])
 
 

@@ -9,7 +9,7 @@ import Signup from './components/signup';
 import { GlobalContext } from './context/context';
 import AddCategory from './components/addCategory';
 import AddProduct from './components/addProduct';
-import Footer from './components/footer';
+import BottomNavBar from './components/bottomNavbar';
 import './App.css';
 import Cart from './components/cart';
 import { getFeatures } from 'detect-features';
@@ -82,9 +82,10 @@ function App() {
               <Route path='/orders' element={<Orders />} />
               <Route path='*' element={<Navigate to={'/'} replace={true} />} />
             </Routes>
-            {
+            {/* {
               features.browserFeatures.browserType.isMobile ? <Footer /> : null
-            }
+            } */}
+            <BottomNavBar />
 
           </> : null
         }

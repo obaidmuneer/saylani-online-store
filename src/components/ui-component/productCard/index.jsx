@@ -8,12 +8,12 @@ const ProductCard = ({ _id, title, desc, unit_name, unit_price, img }) => {
     const { addToCart, isLoading } = useCart()
 
     return (
-        <Card maxH={180}  >
+        <Card variant={'outline'} >
             <CardBody>
-                <Stack direction={'row'} mt='6' spacing='2'>
+                <Stack direction={{ base: 'column', sm: 'row' }} spacing='2'>
                     <Image
-                        w={110}
-                        h={110}
+                        w={{ base: '100%', sm: 110 }}
+                        objectFit={'contain'}
                         src={img}
                         alt='product img'
                         borderRadius='lg'

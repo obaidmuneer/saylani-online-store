@@ -12,7 +12,7 @@ const useCart = () => {
         setIsLoading(true)
         // console.log(id);
         try {
-            const res = await axios.post(`${state.api}orders`, {
+            const res = await axios.post(`${state.api}cart`, {
                 product_id: id,
                 quantity: 1,
                 cart_id: state?.cart?._id
@@ -42,7 +42,7 @@ const useCart = () => {
     const updateCart = async (id, qty) => {
         setIsLoading(true)
         try {
-            const res = await axios.put(`${state.api}orders`, {
+            const res = await axios.put(`${state.api}cart`, {
                 cart_id: state?.cart?._id,
                 product_id: id,
                 quantity: qty,
@@ -73,7 +73,7 @@ const useCart = () => {
     const deleteCart = async () => {
         setIsLoading(true)
         try {
-            const res = await axios.delete(`${state.api}orders/${state?.cart?._id}`, { withCredentials: true })
+            const res = await axios.delete(`${state.api}cart/${state?.cart?._id}`, { withCredentials: true })
             console.log(res.data);
             dispatch({
                 type: 'cart',

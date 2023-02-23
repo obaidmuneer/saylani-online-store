@@ -8,6 +8,7 @@ const CategoryCard = ({ title, img }) => {
     return (
         <Card
             maxW={140}
+            variant={'outline'}
             onClick={() => getProdsByCategory(title)}
             cursor={'pointer'} 
         >

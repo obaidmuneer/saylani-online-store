@@ -28,7 +28,7 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { GlobalContext } from '../../context/context';
 import HeadingTitle from '../headingTitle';
-import { BsCart4 } from 'react-icons/bs';
+import { BsCart4, BsCartCheckFill } from 'react-icons/bs';
 
 const Links = [{ title: 'Home', path: '/' }];
 
@@ -117,12 +117,16 @@ export default function Navbar() {
                     <Flex alignItems={'center'} >
                         <Stack direction={'row'} spacing={3}>
                             {
-                                state?.user && <Button p={2} as={RouterLink} to={'/cart'} >
-                                    <BsCart4 />
-                                    {
-                                        state?.cart?.orders && <Badge colorScheme={'red'} ml={2} >{state?.cart?.orders?.length}</Badge>
-                                    }
-                                </Button>
+                                state?.user && state.icon ?
+                                    <Button p={2} as={RouterLink} to={'/orders'} >
+                                        <BsCartCheckFill />
+                                    </Button> :
+                                    <Button p={2} as={RouterLink} to={'/cart'} >
+                                        <BsCart4 />
+                                        {
+                                            state?.cart?.orders && <Badge colorScheme={'red'} ml={2} >{state?.cart?.orders?.length}</Badge>
+                                        }
+                                    </Button>
                             }
                             <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}

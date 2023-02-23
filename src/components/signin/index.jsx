@@ -44,7 +44,7 @@ export default function Signin() {
                 payload: result.data.cart
             })
             dispatch({
-                type: 'cart',
+                type: 'orders',
                 payload: result.data.orders
             })
             navigate('/')
