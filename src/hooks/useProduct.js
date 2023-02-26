@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context/context";
@@ -5,6 +6,7 @@ import { GlobalContext } from "../context/context";
 const useProducts = () => {
     const { state, dispatch } = useContext(GlobalContext)
     const [isLoading, setIsLoading] = useState(false)
+    const toast = useToast()
 
     const getProducts = async () => {
         try {
@@ -72,16 +74,27 @@ const useProducts = () => {
                 body: formData
             });
             const data = await response.json()
-            dispatch({
-                type: 'products',
-                payload: [data.product, ...state.products]
-            })
+            if (response.ok) {
+                dispatch({
+                    type: 'products',
+                    payload: [data.product, ...state.products]
+                })
+            } else {
+                throw new Error(data)
+            }
+
         } catch (error) {
             console.log(error.message);
+            toast({
+                title: 'Something went wrong',
+                status: 'error',
+                position: 'bottom-right',
+                isClosable: true,
+            })
         }
         setIsLoading(false)
     }
-    return { getProducts, postProduct, searchProducts, getProdsByCategory,isLoading }
+    return { getProducts, postProduct, searchProducts, getProdsByCategory, isLoading }
 }
 
 export default useProducts

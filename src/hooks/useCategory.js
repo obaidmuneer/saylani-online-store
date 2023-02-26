@@ -1,8 +1,10 @@
+import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useState } from "react";
 import { GlobalContext } from "../context/context";
 
 const useCategory = () => {
+    const toast = useToast()
 
     const { state, dispatch } = useContext(GlobalContext)
     const [isLoading, setIsLoading] = useState(false)
@@ -34,12 +36,21 @@ const useCategory = () => {
                 body: formData
             });
             const data = await response.json()
-            dispatch({
-                type: 'category',
-                payload: [data.category, ...state.category]
-            })
+            if (response.ok) {
+                dispatch({
+                    type: 'category',
+                    payload: [data.category, ...state.category]
+                })
+            }else{
+                throw new Error(data)
+            }
         } catch (error) {
-            console.log(error.message);
+            toast({
+                title: 'Something went wrong',
+                status: 'error',
+                position: 'bottom-right',
+                isClosable: true,
+            })
         }
         setIsLoading(false)
 

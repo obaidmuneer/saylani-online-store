@@ -117,7 +117,7 @@ export default function Navbar() {
                     <Flex alignItems={'center'} >
                         <Stack direction={'row'} spacing={3}>
                             {
-                                state?.user && state.icon ?
+                                state?.user ? state.icon ?
                                     <Button p={2} as={RouterLink} to={'/orders'} >
                                         <BsCartCheckFill />
                                     </Button> :
@@ -126,7 +126,7 @@ export default function Navbar() {
                                         {
                                             state?.cart?.orders && <Badge colorScheme={'red'} ml={2} >{state?.cart?.orders?.length}</Badge>
                                         }
-                                    </Button>
+                                    </Button> : null
                             }
                             <Button onClick={toggleColorMode}>
                                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
@@ -159,8 +159,10 @@ export default function Navbar() {
                                         </Center>
                                         <br />
                                         <MenuDivider />
-                                        <MenuItem as={RouterLink} to={'/add-category'} >Add Category</MenuItem>
-                                        <MenuItem as={RouterLink} to={'/add-product'} >Add Product</MenuItem>
+                                        {state?.user?.isAdmin && <>
+                                            <MenuItem as={RouterLink} to={'/add-category'} >Add Category</MenuItem>
+                                            <MenuItem as={RouterLink} to={'/add-product'} >Add Product</MenuItem></>
+                                        }
                                         <MenuItem>Profile Setting</MenuItem>
                                         <MenuItem>Change Password</MenuItem>
                                         <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -201,7 +203,7 @@ export default function Navbar() {
                     <Box pb={4} display={{ md: 'none' }}>
                         <Stack as={'nav'} spacing={4}>
                             {Links.map((link) => (
-                                <NavLink key={link.title}>{link.title}</NavLink>
+                                <NavLink path={link.path} key={link.title}>{link.title}</NavLink>
                             ))}
                         </Stack>
                     </Box>

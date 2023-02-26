@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { GlobalContext } from '../../context/context';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
@@ -60,7 +60,7 @@ export default function Signin() {
             align={'center'}
             justify={'center'}
             bg={useColorModeValue('gray.50', 'gray.800')}>
-            <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+            <Stack spacing={8} mx={'auto'} maxW={'lg'} px={6}>
                 <Stack align={'center'}>
                     <Heading fontSize={'4xl'} textAlign='center'>
                         Saylani Walfare Online Discount Store✌️
@@ -103,7 +103,7 @@ export default function Signin() {
                                 </InputRightElement>
                             </InputGroup>
                         </FormControl>
-                        <Stack spacing={10}>
+                        <Stack spacing={5}>
                             <Stack
                                 direction={{ base: 'column', sm: 'row' }}
                                 align={'start'}
@@ -111,19 +111,24 @@ export default function Signin() {
                                 <Checkbox>Remember me</Checkbox>
                                 <Link color={'green.400'}>Forgot password?</Link>
                             </Stack>
-                            <Button
-                                bg={'green.400'}
-                                color={'white'}
-                                _hover={{
-                                    bg: 'green.500',
-                                }}
-                                type={'submit'}>
-                                Sign in
-                            </Button>
+                            <Stack>
+                                <Button
+                                    bg={'green.400'}
+                                    color={'white'}
+                                    _hover={{
+                                        bg: 'green.500',
+                                    }}
+                                    type={'submit'}>
+                                    Sign in
+                                </Button>
+                                <Text alignSelf={'flex-end'}>
+                                    <Link as={RouterLink} to={'/signup'} color={'green.400'}>Signup</Link>
+                                </Text>
+                            </Stack>
                         </Stack>
                     </Stack>
                 </Box>
-            </Stack>
-        </Flex>
+            </Stack >
+        </Flex >
     );
 }

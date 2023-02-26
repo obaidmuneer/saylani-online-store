@@ -87,7 +87,7 @@ const AddCategory = () => {
                     <Stack maxH={'xs'} overflowY='auto'>
                         {
                             state.category.map(category => {
-                                return <CategoryHCard key={category._id} title={category.title} img={category.file} />
+                                return <CategoryHCard key={category._id} title={category?.title} img={category?.file} />
                             })
                         }
 

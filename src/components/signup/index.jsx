@@ -60,7 +60,7 @@ export default function Signup() {
             align={'center'}
             justify={'center'}
             bg={useColorModeValue('gray.50', 'gray.800')}>
-            <Stack spacing={4} mx={'auto'} maxW={'lg'} py={0} px={0}>
+            <Stack spacing={4} mx={'auto'} maxW={'lg'} px={6}>
                 <Stack align={'center'}>
                     <Heading fontSize={'4xl'} textAlign={'center'}>
                         Saylani Walfare Online Discount Store✌️
@@ -130,11 +130,9 @@ export default function Signup() {
                                 Create Account
                             </Button>
                         </Stack>
-                        <Stack pt={6}>
-                            <Text align={'center'}>
-                                Already a user? <Link as={RouterLink} to={'/signin'} color={'blue.400'}>Login</Link>
-                            </Text>
-                        </Stack>
+                        <Text alignSelf={'flex-end'}>
+                            Already a user? <Link as={RouterLink} to={'/signin'} color={'green.400'}>Login</Link>
+                        </Text>
                     </Stack>
                 </Box>
             </Stack>
