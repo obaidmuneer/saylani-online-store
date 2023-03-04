@@ -8,6 +8,24 @@ const useCart = () => {
     const [isLoading, setIsLoading] = useState(false)
     const toast = useToast()
 
+    const getCart = async () => {
+        try {
+            const res = await axios.get(`${state.api}cart`, { withCredentials: true })
+            // console.log(res.data.cart);
+            dispatch({
+                type: 'cart',
+                payload: res.data.cart
+            })
+        } catch (error) {
+            toast({
+                title: 'Something went wrong',
+                status: 'error',
+                position: 'bottom-right',
+                isClosable: true,
+            })
+        }
+    }
+
     const addToCart = async (id) => {
         setIsLoading(true)
         // console.log(id);
@@ -97,7 +115,7 @@ const useCart = () => {
         setIsLoading(false)
     }
 
-    return { addToCart, updateCart, deleteCart, isLoading }
+    return { addToCart, updateCart, deleteCart, getCart, isLoading }
 }
 
 export default useCart
