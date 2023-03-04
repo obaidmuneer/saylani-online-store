@@ -1,16 +1,9 @@
 import {
-    Container,
-    Stack,
     Image,
-    Text,
 } from '@chakra-ui/react';
-import { GlobalContext } from '../../context/context';
 import { useContext, useEffect } from 'react';
-import ProductCard from '../ui-component/productCard';
-import ProductSearch from '../productSearch';
-import CategoryCard from '../ui-component/categoryCard';
-import Carousel from 'react-multi-carousel';
 import "react-multi-carousel/lib/styles.css";
+import { GlobalContext } from '../../context/context';
 import useCategory from '../../hooks/useCategory';
 import useProducts from '../../hooks/useProduct';
 import ProductBody from '../productBody';

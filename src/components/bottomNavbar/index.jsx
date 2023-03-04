@@ -24,7 +24,7 @@ const BottomNavBar = () => {
     const sec_c = useColorModeValue('white', 'gray.800')
 
     return (
-        <HStack bg={sec_c} padding={2} position={'fixed'} flexDir='row' bottom={0} width={'100%'} justifyContent={'space-evenly'} >
+        <HStack zIndex={1} bg={sec_c} padding={2} position={'fixed'} flexDir='row' bottom={0} width={'100%'} justifyContent={'space-evenly'} >
 
             {
                 navLinks.map((link, index) => (
