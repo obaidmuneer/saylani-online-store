@@ -12,6 +12,7 @@ import Orders from './components/orders';
 import useAuth from './hooks/useAuth';
 import Chatbot from './components/chatbot';
 import './App.css';
+import ChatbotBeta from './components/chatbot-beta';
 
 
 const App = () => {
@@ -43,7 +44,8 @@ const App = () => {
               <Route path='*' element={<Navigate to={'/'} replace={true} />} />
             </Routes>
             <BottomNavBar />
-            {user && <Chatbot userId={user._id} />}
+            {/* {user && <Chatbot userId={user._id} />} */}
+            {user && <ChatbotBeta userId={user._id} />}
           </Box>
         </>
       )}
