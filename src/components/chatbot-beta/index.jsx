@@ -8,15 +8,26 @@ import {
     ConversationHeader,
     Avatar,
     ExpansionPanel,
+    InputToolbox,
+    SendButton,
+    AttachmentButton,
 } from "@chatscope/chat-ui-kit-react";
-import { useState, useRef, useContext } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { GlobalContext } from "../../context/context";
 import axios from "axios";
-import { AudioRecorder } from 'react-audio-voice-recorder';
+import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import useCart from "../../hooks/useCart";
+import { Button, Icon, IconButton } from "@chakra-ui/react";
+import { BsMicFill } from "react-icons/bs";
+import { IconBase } from "react-icons/lib";
+import './styles.css'
+import useRecorder from "../../hooks/useRecorder";
+import hark from 'hark'
+
 
 const ChatbotBeta = ({ userId }) => {
     const { state } = useContext(GlobalContext)
+    const { isRec, audioRecording, recStream, startRec, stopRec } = useRecorder()
     const { getCart } = useCart()
 
     const [chat, setChat] = useState([])
@@ -32,36 +43,58 @@ const ChatbotBeta = ({ userId }) => {
     }
 
     const sendDataToDialogflow = async (msg, audioData) => {
-        const res = await axios.post(`${state.api}dialogflow`, { msg, userId, audioData })
-        console.log(res.data.messages);
-        let audioBufer = res.data.messages.pop().audio;
+        try {
+            const res = await axios.post(`${state.api}dialogflow`, { msg, userId, audioData })
+            console.log(res);
+            if (res.fulfillmentText === '') {
+                throw new Error('Something went wrong')
+            }
+            let audioBufer = res.data.messages.pop().audio;
+            // console.log(res.data.messages[0]);
 
-        const base64 = _arrayBufferToBase64(audioBufer.data)
-        setChat(prev => [...prev,
-        !msg && {
-            sender: 'user',
-            text: res.data.queryText
-        },
-        res.data.messages[0]])
+            const base64 = _arrayBufferToBase64(audioBufer.data)
+            if (!msg) {
+                setChat(prev => [...prev, {
+                    sender: 'user',
+                    text: res.data.queryText
+                }])
 
-        const flag = ['orderItem', 'updateItem',].includes(res.data.intent)
-        // console.log(flag);
-        if (flag) {
-            getCart()
+            }
+            setChat(prev => [...prev, res.data.messages[0]])
+
+            const flag = ['orderItem', 'updateItem',].includes(res.data.intent)
+            // console.log(flag);
+            if (flag) {
+                getCart()
+            }
+
+            var audioFile = new Audio("data:audio/mp3;base64," + base64);
+            audioFile.play();
+        } catch (error) {
+            console.log(error);
+            setChat(prev => [...prev, {
+                sender: 'chatbot',
+                text: 'Something went wrong'
+            }])
+            let utterance = new SpeechSynthesisUtterance();
+            utterance.text = "something went wrong!";
+            utterance.voice = speechSynthesis.getVoices()[1];
+            speechSynthesis.speak(utterance);
+
         }
-
-
-        var audioFile = new Audio("data:audio/mp3;base64," + base64);
-        audioFile.play();
     }
 
-
-    const addAudioElement = async (blob) => {
+    const stopRecording = async () => {
+        // setIsRec(true)
+        await stopRec()
+        const blob = audioRecording.blob
         const reader = new FileReader();
         reader.readAsDataURL(blob);
         reader.onload = async function () {
             // console.log(reader.result);
             const base64Data = reader.result.split(',')[1]; // Extract the base64 data from the data URI
+            // console.log(base64Data);
+
             // Send the base64Data to Dialogflow
             sendDataToDialogflow(null, base64Data)
         };
@@ -76,18 +109,31 @@ const ChatbotBeta = ({ userId }) => {
         }])
         sendDataToDialogflow(e, null)
 
-
-
-
         // let base64 = btoa(String.fromCharCode(...new Uint8Array(audioBufer.data)));
         // the above code will not work for large file
         // document.querySelector("#myaudio").src = "data:audio/mp3;base64," + base64;
         // document.querySelector("#myaudio").play()
     }
+
+    // useEffect(() => {
+    //     if (isRec) {
+    //         (async () => {
+    //             // const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    //             var speechEvents = hark(recStream, {});
+    //             speechEvents.on('stopped_speaking', async function (e) {
+    //                 console.log('stopped_speaking', e);
+    //                 console.log('i am working');
+    //                 await stopRecording()
+    //                 // speechEvents.stop();
+    //             });
+    //         })()
+    //     }
+    // }, [isRec])
+
     return (
-        <div style={{ position: "fixed", bottom: '75px', right: '5px', width: '270px' }}>
-            <AudioRecorder onRecordingComplete={addAudioElement} />
-            <ExpansionPanel title="Chat Bot" open={false} >
+        <div style={{ position: "fixed", bottom: '75px', right: '5px', width: '300px' }}>
+
+            <ExpansionPanel title="Saylani Online Store" open={false} >
                 <MainContainer style={{ height: "400px", border: 'none' }} >
                     <ChatContainer >
                         <MessageList >
@@ -104,7 +150,15 @@ const ChatbotBeta = ({ userId }) => {
                                 })
                             }
                         </MessageList>
-                        <MessageInput attachButton={false} onSend={(e) => handleSubmit(e)} placeholder="Type message here" />
+
+                        <InputToolbox >
+                            {/* <AudioRecorder onRecordingComplete={addAudioElement} /> */}
+                            <MessageInput style={{ alignItems: 'center', border: 'none', width: '90%' }} attachButton={false} onSend={(e) => handleSubmit(e)} placeholder="Type message here" />
+                            <IconButton icon={<BsMicFill />} bg={'red.400'} onClick={() => {
+                                isRec ? stopRecording() : startRec()
+                            }} />
+
+                        </InputToolbox>
                     </ChatContainer>
                 </MainContainer>
             </ExpansionPanel>
