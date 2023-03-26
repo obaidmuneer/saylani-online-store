@@ -29,6 +29,7 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import { GlobalContext } from '../../context/context';
 import HeadingTitle from '../headingTitle';
 import { BsCart4, BsCartCheckFill } from 'react-icons/bs';
+import usePatch from '../../hooks/usePatch';
 
 const Links = [{ title: 'Home', path: '/' }];
 
@@ -51,18 +52,20 @@ const NavLink = ({ children, path }) => (
 
 export default function Navbar() {
     const { state, dispatch } = useContext(GlobalContext)
+    const patch = usePatch()
     // console.log(state.user);
     const { colorMode, toggleColorMode } = useColorMode();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const handleLogout = async () => {
+        patch('signin', null)
         try {
             const result = await axios.get(`${state.api}users/logout`, { withCredentials: true })
-            console.log(result.data);
-            dispatch({
-                type: 'logout',
-            })
+
+            // console.log(result.data);
+            patch('logout', null)
         } catch (error) {
+            patch('signin', false)
             console.log(error);
         }
     }

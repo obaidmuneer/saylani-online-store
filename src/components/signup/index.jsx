@@ -19,9 +19,11 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { GlobalContext } from '../../context/context';
+import usePatch from '../../hooks/usePatch';
 
 export default function Signup() {
     const { state, dispatch } = useContext(GlobalContext)
+    const patch = usePatch()
     const [showPassword, setShowPassword] = useState(false);
     const [err, setErr] = useState('')
     const firstName = useRef('')
@@ -32,6 +34,7 @@ export default function Signup() {
 
     const handleSignUp = async (e) => {
         e.preventDefault()
+        patch('signin', null)
         try {
             const result = await axios.post(`${state.api}users/signup`,
                 {
@@ -44,12 +47,11 @@ export default function Signup() {
                 {
                     withCredentials: true
                 })
-            dispatch({
-                type: 'signin',
-                payload: result.data
-            })
+            patch('signin', result.data)
+
         } catch (error) {
             console.log(error);
+            patch('signin', false)
             setErr(error.message);
         }
     }

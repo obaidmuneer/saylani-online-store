@@ -19,10 +19,12 @@ import { useState, useContext } from 'react';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { GlobalContext } from '../../context/context';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import usePatch from '../../hooks/usePatch';
 
 
 export default function Signin() {
     const { state, dispatch } = useContext(GlobalContext)
+    const patch = usePatch()
     const [showPassword, setShowPassword] = useState(false);
     const [err, setErr] = useState('')
     const [email, setEmail] = useState('')
@@ -31,24 +33,17 @@ export default function Signin() {
 
     const handleSignIn = async (e) => {
         e.preventDefault()
+        patch('signin', null)
         try {
             const result = await axios.post(`${state.api}users/signin`,
                 { email, password },
                 { withCredentials: true })
-            dispatch({
-                type: 'signin',
-                payload: result.data.user
-            })
-            dispatch({
-                type: 'cart',
-                payload: result.data.cart
-            })
-            dispatch({
-                type: 'orders',
-                payload: result.data.orders
-            })
+            patch('signin', result.data.user)
+            patch('cart', result.data.cart)
+            patch('orders', result.data.orders)
             navigate('/')
         } catch (error) {
+            patch('signin', false)
             console.log(error);
             setErr(error.message);
         }

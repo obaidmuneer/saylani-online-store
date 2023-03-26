@@ -52,6 +52,9 @@ const ChatbotBeta = ({ userId }) => {
             let audioBufer = res.data.messages.pop().audio;
             // console.log(res.data.messages[0]);
 
+            // let base64 = btoa(String.fromCharCode(...new Uint8Array(audioBufer.data)));
+            // the above code will not work for large file
+
             const base64 = _arrayBufferToBase64(audioBufer.data)
             if (!msg) {
                 setChat(prev => [...prev, {
@@ -62,14 +65,16 @@ const ChatbotBeta = ({ userId }) => {
             }
             setChat(prev => [...prev, res.data.messages[0]])
 
-            const flag = ['orderItem', 'updateItem',].includes(res.data.intent)
+            const flag = ['orderItem', 'updateItem', 'itemPrice - order'].includes(res.data.intent)
             // console.log(flag);
-            if (flag) {
-                getCart()
-            }
+            if (flag) getCart()
 
-            var audioFile = new Audio("data:audio/mp3;base64," + base64);
-            audioFile.play();
+
+            document.querySelector("#myaudio").src = "data:audio/mp3;base64," + base64;
+            document.querySelector("#myaudio").play()
+
+            // var audioFile = new Audio("data:audio/mp3;base64," + base64);
+            // audioFile.play();
         } catch (error) {
             console.log(error);
             setChat(prev => [...prev, {
@@ -108,11 +113,7 @@ const ChatbotBeta = ({ userId }) => {
             text: e
         }])
         sendDataToDialogflow(e, null)
-
-        // let base64 = btoa(String.fromCharCode(...new Uint8Array(audioBufer.data)));
-        // the above code will not work for large file
-        // document.querySelector("#myaudio").src = "data:audio/mp3;base64," + base64;
-        // document.querySelector("#myaudio").play()
+        document.querySelector("#myaudio").pause()
     }
 
     // useEffect(() => {
