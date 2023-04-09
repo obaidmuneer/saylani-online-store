@@ -17,7 +17,7 @@ import { GlobalContext } from "../../context/context";
 import axios from "axios";
 import { AudioRecorder, useAudioRecorder } from 'react-audio-voice-recorder';
 import useCart from "../../hooks/useCart";
-import { Button, Icon, IconButton } from "@chakra-ui/react";
+import { Button, Icon, IconButton, Tooltip } from "@chakra-ui/react";
 import { BsMicFill } from "react-icons/bs";
 import { IconBase } from "react-icons/lib";
 import './styles.css'
@@ -155,9 +155,15 @@ const ChatbotBeta = ({ userId }) => {
                         <InputToolbox >
                             {/* <AudioRecorder onRecordingComplete={addAudioElement} /> */}
                             <MessageInput style={{ alignItems: 'center', border: 'none', width: '90%' }} attachButton={false} onSend={(e) => handleSubmit(e)} placeholder="Type message here" />
-                            <IconButton icon={<BsMicFill />} bg={'red.400'} onClick={() => {
-                                isRec ? stopRecording() : startRec()
-                            }} />
+                            <Tooltip label={isRec ? 'Stop' : 'Start'} >
+                                <IconButton icon={<BsMicFill />} bg={isRec ? 'green.400' : 'red.400'}
+                                    _hover={{
+                                        bg: `green.600`,
+                                    }}
+                                    onClick={() => {
+                                        isRec ? stopRecording() : startRec()
+                                    }} />
+                            </Tooltip>
 
                         </InputToolbox>
                     </ChatContainer>
