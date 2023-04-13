@@ -12,6 +12,10 @@ export const reducer = (state, action) => {
       return { ...state, orders: action.payload };
     case "cart":
       return { ...state, cart: action.payload };
+    case "checkout":
+      return { ...state, checkout: action.payload };
+    case "chatbot":
+      return { ...state, chatbot: action.payload };
     case "icon":
       return { ...state, icon: !state.icon };
     case "signin":

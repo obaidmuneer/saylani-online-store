@@ -23,71 +23,12 @@ import { IconBase } from "react-icons/lib";
 import './styles.css'
 import useRecorder from "../../hooks/useRecorder";
 import hark from 'hark'
+import useChat from "../../hooks/useChat";
 
 
 const ChatbotBeta = ({ userId }) => {
-    const { state } = useContext(GlobalContext)
+    const { sendMsg, handleSubmit, chat, } = useChat()
     const { isRec, audioRecording, recStream, startRec, stopRec } = useRecorder()
-    const { getCart } = useCart()
-
-    const [chat, setChat] = useState([])
-
-    function _arrayBufferToBase64(buffer) {
-        var binary = '';
-        var bytes = new Uint8Array(buffer);
-        var len = bytes.byteLength;
-        for (var i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    }
-
-    const sendDataToDialogflow = async (msg, audioData) => {
-        try {
-            const res = await axios.post(`${state.api}dialogflow`, { msg, userId, audioData })
-            console.log(res);
-            if (res.fulfillmentText === '') {
-                throw new Error('Something went wrong')
-            }
-            let audioBufer = res.data.messages.pop().audio;
-            // console.log(res.data.messages[0]);
-
-            // let base64 = btoa(String.fromCharCode(...new Uint8Array(audioBufer.data)));
-            // the above code will not work for large file
-
-            const base64 = _arrayBufferToBase64(audioBufer.data)
-            if (!msg) {
-                setChat(prev => [...prev, {
-                    sender: 'user',
-                    text: res.data.queryText
-                }])
-
-            }
-            setChat(prev => [...prev, res.data.messages[0]])
-
-            const flag = ['orderItem', 'updateItem', 'itemPrice - order'].includes(res.data.intent)
-            // console.log(flag);
-            if (flag) getCart()
-
-
-            document.querySelector("#myaudio").src = "data:audio/mp3;base64," + base64;
-            document.querySelector("#myaudio").play()
-
-            // var audioFile = new Audio("data:audio/mp3;base64," + base64);
-            // audioFile.play();
-        } catch (error) {
-            console.log(error);
-            setChat(prev => [...prev, {
-                sender: 'chatbot',
-                text: 'Something went wrong'
-            }])
-            let utterance = new SpeechSynthesisUtterance();
-            utterance.text = "something went wrong!";
-            utterance.voice = speechSynthesis.getVoices()[1];
-            speechSynthesis.speak(utterance);
-
-        }
-    }
 
     const stopRecording = async () => {
         // setIsRec(true)
@@ -101,20 +42,11 @@ const ChatbotBeta = ({ userId }) => {
             // console.log(base64Data);
 
             // Send the base64Data to Dialogflow
-            sendDataToDialogflow(null, base64Data)
+            // sendDataToDialogflow(null, base64Data)
+            sendMsg(null, base64Data)
         };
     };
 
-    const handleSubmit = async (e) => {
-        // console.log(userId);
-        // console.log(e);
-        setChat(prev => [...prev, {
-            sender: 'user',
-            text: e
-        }])
-        sendDataToDialogflow(e, null)
-        document.querySelector("#myaudio").pause()
-    }
 
     // useEffect(() => {
     //     if (isRec) {

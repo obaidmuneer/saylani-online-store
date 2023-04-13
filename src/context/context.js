@@ -11,6 +11,8 @@ let data = {
     adminOrders: [],
     cart: null,
     products: [],
+    checkout: {},
+    chatbot: false,
     api: window.location.href.includes("localhost") ?
         "http://localhost:8080/api/v1/"
         // "https://saylani-online-store-server-jxh0478lu-obaidmuneer.vercel.app/api/v1/"

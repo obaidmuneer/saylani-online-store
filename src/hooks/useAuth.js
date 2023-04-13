@@ -33,7 +33,7 @@ const useAuth = () => {
         })()
     }, []);
 
-    return { user: state?.user }
+    return { user: state?.user, cart: state?.cart }
 }
 
 export default useAuth
