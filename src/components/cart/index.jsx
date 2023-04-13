@@ -9,6 +9,10 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../context/context';
 import useCart from '../../hooks/useCart';
 import useOrder from '../../hooks/useOrder';
+import Payment from '../payment'
+import { useNavigate } from 'react-router-dom';
+import usePatch from '../../hooks/usePatch';
+
 
 const validationSchema = yup.object().shape({
     name: yup.string().min(3).required('Please Enter Your Name'),
@@ -16,9 +20,10 @@ const validationSchema = yup.object().shape({
 });
 
 const Cart = () => {
+    const navigate = useNavigate()
+    const patch = usePatch()
     const { state } = useContext(GlobalContext)
     const { deleteCart, isLoading } = useCart()
-    const { placeOrder } = useOrder()
 
     const formik = useFormik({
         initialValues: {
@@ -28,8 +33,9 @@ const Cart = () => {
         validationSchema: validationSchema,
         onSubmit: async (values, actions) => {
             // console.log(values);
-            await placeOrder(values)
+            patch('checkout', values)
             actions.setSubmitting(false)
+            navigate('/payment')
         },
     });
     return (

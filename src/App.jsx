@@ -13,10 +13,10 @@ import useAuth from './hooks/useAuth';
 import Chatbot from './components/chatbot';
 import './App.css';
 import ChatbotBeta from './components/chatbot-beta';
-
+import Payment from './components/payment';
 
 const App = () => {
-  const { user } = useAuth()
+  const { user, cart } = useAuth()
 
   return (
     <>
@@ -38,6 +38,7 @@ const App = () => {
                   <Route path='/add-category' element={user.isAdmin ? <AddCategory /> : <Navigate to={'/'} replace />} />
                   <Route path='/add-product' element={user.isAdmin ? <AddProduct /> : <Navigate to={'/'} replace />} />
                   <Route path='/cart' element={<Cart />} />
+                  <Route path='/payment' element={<Payment />} />
                   <Route path='/orders' element={<Orders />} />
                 </>
               }
